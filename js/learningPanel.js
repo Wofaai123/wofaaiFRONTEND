@@ -8,6 +8,7 @@ const API_BASE = "https://wofa-ai-backend.onrender.com/api";
 // =========================
 const coursesList = document.getElementById("coursesList");
 const lessonsList = document.getElementById("lessonsList");
+const chatBox = document.getElementById("chatBox");
 
 // =========================
 // STATE
@@ -19,6 +20,8 @@ let activeLessonId = null;
 // LOAD COURSES
 // =========================
 async function loadCourses() {
+  if (!coursesList) return;
+
   coursesList.innerHTML = "<li>Loading courses...</li>";
   lessonsList.innerHTML = "";
 
@@ -28,7 +31,7 @@ async function loadCourses() {
 
     coursesList.innerHTML = "";
 
-    if (!courses.length) {
+    if (!Array.isArray(courses) || courses.length === 0) {
       coursesList.innerHTML = "<li>No courses available</li>";
       return;
     }
@@ -36,14 +39,19 @@ async function loadCourses() {
     courses.forEach(course => {
       const li = document.createElement("li");
       li.textContent = course.title;
+      li.style.cursor = "pointer";
 
-      li.onclick = () => selectCourse(course._id, li);
+      li.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectCourse(course._id, li);
+      });
+
       coursesList.appendChild(li);
     });
 
   } catch (err) {
-    coursesList.innerHTML = "<li>Failed to load courses</li>";
-    console.error(err);
+    console.error("Failed to load courses:", err);
+    coursesList.innerHTML = "<li>Error loading courses</li>";
   }
 }
 
@@ -53,7 +61,7 @@ async function loadCourses() {
 async function selectCourse(courseId, element) {
   activeCourseId = courseId;
 
-  // highlight active course
+  // Highlight active course
   document
     .querySelectorAll(".course-list li")
     .forEach(li => li.classList.remove("active"));
@@ -68,7 +76,7 @@ async function selectCourse(courseId, element) {
 
     lessonsList.innerHTML = "";
 
-    if (!lessons.length) {
+    if (!Array.isArray(lessons) || lessons.length === 0) {
       lessonsList.innerHTML = "<li>No lessons yet</li>";
       return;
     }
@@ -76,14 +84,19 @@ async function selectCourse(courseId, element) {
     lessons.forEach(lesson => {
       const li = document.createElement("li");
       li.textContent = lesson.title;
+      li.style.cursor = "pointer";
 
-      li.onclick = () => selectLesson(lesson._id, li);
+      li.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectLesson(lesson._id, li);
+      });
+
       lessonsList.appendChild(li);
     });
 
   } catch (err) {
-    lessonsList.innerHTML = "<li>Failed to load lessons</li>";
-    console.error(err);
+    console.error("Failed to load lessons:", err);
+    lessonsList.innerHTML = "<li>Error loading lessons</li>";
   }
 }
 
@@ -99,17 +112,21 @@ function selectLesson(lessonId, element) {
 
   element.classList.add("active");
 
-  // Store for chat context
+  // Persist lesson context for chat
   localStorage.setItem("activeLessonId", lessonId);
 
-  // Visual confirmation in chat
-  const chatBox = document.getElementById("chatBox");
-  chatBox.innerHTML += `
+  // Visual confirmation
+  chatBox.insertAdjacentHTML(
+    "beforeend",
+    `
     <div class="message ai">
-      📘 Lesson selected.<br>
+      📘 <strong>Lesson activated</strong><br>
       You can now ask questions about this lesson.
     </div>
-  `;
+    `
+  );
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 // =========================
