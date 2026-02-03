@@ -3,35 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <title>WOFA AI – Login</title>
+
   <link rel="stylesheet" href="css/style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="auth-page">
 
   <div class="auth-container">
     <h2>Login to WOFA AI</h2>
 
-    <form id="loginForm">
-      <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        required
-      />
+    <!-- EMAIL LOGIN -->
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        required
-      />
+    <p style="margin: 10px 0;">OR</p>
 
-      <button type="submit">Login</button>
+    <!-- GOOGLE LOGIN -->
+    <div
+      id="g_id_onload"
+      data-client_id="621972422928-phc9pjhqqfs041tr51cvkei1jnoh1v7d.apps.googleusercontent.com"
+      data-callback="handleGoogleLogin"
+      data-auto_prompt="false">
+    </div>
 
-      <div id="loginError" class="error-message"></div>
-    </form>
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="continue_with"
+      data-shape="rectangular"
+      data-logo_alignment="left">
+    </div>
+
+    <p style="margin-top: 12px;">
+      New here? <a href="register.html">Create an account</a>
+    </p>
   </div>
 
-  <!-- LOGIN LOGIC -->
   <script src="js/login.js"></script>
 </body>
 </html>

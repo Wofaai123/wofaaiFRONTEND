@@ -11,29 +11,33 @@
 <body class="chat-page">
 
   <!-- =========================
+       NAVIGATION BAR
+       ========================= -->
+  <nav class="nav-bar">
+    <a href="index.html">🏠 Home</a>
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="login.html">🚪 Logout</a>
+  </nav>
+
+  <!-- =========================
        TOP BAR
        ========================= -->
   <header class="top-bar">
 
-    <!-- TITLE + LOGO (CENTER) -->
+    <!-- CENTER BRAND -->
     <div class="app-title">
-      <img
-        src="assets/logo.png"
-        alt="WOFA AI Logo"
-        class="app-logo"
-      />
+      <img src="assets/logo.png" alt="WOFA AI Logo" class="app-logo" />
       <div class="title-text">
         <div class="name">WOFA AI</div>
         <div class="tagline">Visual Learning Assistant</div>
       </div>
     </div>
 
-    <!-- DARK MODE (RIGHT) -->
+    <!-- DARK MODE -->
     <button
       id="darkToggle"
       class="dark-toggle"
       title="Toggle Dark Mode"
-      onclick="toggleDarkMode()"
       aria-label="Toggle dark mode"
     >
       🌙
@@ -42,52 +46,73 @@
   </header>
 
   <!-- =========================
-       MAIN CHAT AREA
+       MAIN LAYOUT
        ========================= -->
-  <main class="chat-container">
+  <main class="main-layout">
 
-    <!-- COURSES & LESSONS -->
+    <!-- =========================
+         LEARNING SIDEBAR
+         ========================= -->
     <aside class="learning-panel">
-      <h3>Courses</h3>
-      <ul id="coursesList" class="course-list"></ul>
 
-      <h4>Lessons</h4>
-      <ul id="lessonsList" class="lesson-list"></ul>
+      <div class="learning-header">
+        📘 Learning Panel
+        <p class="learning-hint">
+          Select a course, then a lesson
+        </p>
+      </div>
+
+      <!-- COURSES -->
+      <ul id="coursesList" class="course-list">
+        <!-- dynamically filled -->
+      </ul>
+
     </aside>
 
-    <!-- CHAT -->
-    <section class="chat-box" id="chatBox">
-      <div class="message ai">
-        Hello 👋 I’m <b>WOFA AI</b>.<br />
-        Ask a question, upload an image, or use your voice.
+    <!-- =========================
+         CHAT AREA
+         ========================= -->
+    <section class="chat-container">
+
+      <!-- CHAT BOX -->
+      <div class="chat-box" id="chatBox">
+        <div class="message ai">
+          Hello 👋 I’m <b>WOFA AI</b>.<br />
+          Choose a lesson from the left, or ask me anything.
+        </div>
       </div>
+
+      <!-- INPUT -->
+      <div class="chat-input">
+
+        <!-- Image -->
+        <label class="icon-btn" title="Upload Image">
+          📷
+          <input type="file" id="imageInput" accept="image/*" hidden />
+        </label>
+
+        <!-- Voice -->
+        <button
+          class="icon-btn"
+          onclick="startVoiceInput()"
+          title="Voice Input"
+        >
+          🎤
+        </button>
+
+        <!-- Text -->
+        <input
+          type="text"
+          id="questionInput"
+          placeholder="Ask WOFA AI..."
+          autocomplete="off"
+        />
+
+        <!-- Send -->
+        <button class="send-btn" onclick="sendQuestion()">Send</button>
+      </div>
+
     </section>
-
-    <!-- INPUT -->
-    <div class="chat-input">
-
-      <!-- Image -->
-      <label class="icon-btn" title="Upload Image">
-        📷
-        <input type="file" id="imageInput" accept="image/*" hidden />
-      </label>
-
-      <!-- Voice -->
-      <button class="icon-btn" onclick="startVoiceInput()" title="Voice Input">
-        🎤
-      </button>
-
-      <!-- Text -->
-      <input
-        type="text"
-        id="questionInput"
-        placeholder="Ask WOFA AI..."
-        autocomplete="off"
-      />
-
-      <!-- Send -->
-      <button class="send-btn" onclick="sendQuestion()">Send</button>
-    </div>
 
   </main>
 
