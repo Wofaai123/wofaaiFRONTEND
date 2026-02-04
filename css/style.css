@@ -104,27 +104,69 @@ body {
   gap: 12px;
 }
 
-/* =========================
-   LEARNING PANEL (SIDEBAR)
-   ========================= */
-.learning-panel {
-  width: 260px;
-  background: #eef2ff;
-  border-radius: 14px;
-  padding: 12px;
-  overflow-y: auto;
+/* Learning Panel - Clickable Courses & Lessons */
+
+.course-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.learning-header {
-  font-weight: bold;
-  margin-bottom: 10px;
+.course-item {
+  padding: 14px 16px;
+  margin: 6px 0;
+  background: #f1f5f9;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #1e293b;
 }
 
-.learning-hint {
-  font-size: 12px;
-  opacity: 0.8;
+.course-item:hover {
+  background: #e2e8f0;
+  transform: translateX(4px);
 }
 
+.course-item.active {
+  background: #0f766e;
+  color: white;
+  font-weight: 600;
+}
+
+/* Lessons inside a course */
+.lesson-list {
+  list-style: none;
+  padding-left: 24px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.lesson-list.open {
+  max-height: 500px; /* adjust as needed */
+}
+
+.lesson-item {
+  padding: 10px 16px;
+  margin: 4px 0;
+  background: #f8fafc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.lesson-item:hover {
+  background: #e0f2fe;
+}
+
+.lesson-item.active {
+  background: #0ea5e9;
+  color: white;
+  font-weight: 600;
+}
 /* =========================
    COURSE LIST
    ========================= */
