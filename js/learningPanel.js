@@ -1,14 +1,21 @@
-// js/learningPanel.js - Fully Upgraded Clickable Courses & Lessons (Feb 2026)
+// js/learningPanel.js - Modern Clickable Courses & Lessons (Feb 2026)
 // African-focused + Theology (Christian & Islamic separated) + ICT, Computer Science, Coding, Robotics
 
 document.addEventListener("DOMContentLoaded", () => {
   const coursesList = document.getElementById("coursesList");
+  const chatBox = document.getElementById("chatBox");
+  const questionInput = document.getElementById("questionInput");
 
-  // Expanded & organized course data
+  // Early exit if critical element missing
+  if (!coursesList) {
+    console.error("coursesList element not found in DOM");
+    return;
+  }
+
+  // ───────────────────────────────────────────────
+  // COURSE & LESSON DATA (organized, African-centric)
+  // ───────────────────────────────────────────────
   const coursesData = [
-    // ───────────────────────────────────────────────
-    // THEOLOGY – CHRISTIAN STUDIES (All Christian programs grouped here)
-    // ───────────────────────────────────────────────
     {
       id: "theology-christian",
       title: "Theology – Christian Studies",
@@ -23,10 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "act108", title: "Church Leadership & Administration in Africa" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // THEOLOGY – ISLAMIC STUDIES (All Islamic programs grouped here)
-    // ───────────────────────────────────────────────
     {
       id: "theology-islamic",
       title: "Theology – Islamic Studies",
@@ -39,10 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "isa106", title: "Islamic Ethics and Social Justice" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // INDIGENOUS & INTERFAITH SPIRITUALITY
-    // ───────────────────────────────────────────────
     {
       id: "african-spirituality",
       title: "African Indigenous Spirituality & Interfaith",
@@ -54,10 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ais105", title: "Peacebuilding Through Interfaith Dialogue" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // BUSINESS & ENTREPRENEURSHIP
-    // ───────────────────────────────────────────────
     {
       id: "bba",
       title: "Bachelor of Business Administration (BBA)",
@@ -79,10 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "aei105", title: "Scaling Ventures in Emerging Markets" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // ICT, COMPUTER SCIENCE & CODING
-    // ───────────────────────────────────────────────
     {
       id: "ict",
       title: "Information & Communication Technology (ICT)",
@@ -116,10 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "cod105", title: "Full-Stack Development Project" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // ROBOTICS WITH BASIC SCIENCES (Montessori → University)
-    // ───────────────────────────────────────────────
     {
       id: "robotics",
       title: "Robotics Program with Basic Sciences",
@@ -130,10 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "rob-university", title: "University Level: AI Robotics, Automation, Advanced Physics & Engineering" },
       ],
     },
-
-    // ───────────────────────────────────────────────
-    // OTHER HIGH-IMPACT AFRICAN PROGRAMS
-    // ───────────────────────────────────────────────
     {
       id: "african-history-dev",
       title: "African History & Development",
@@ -166,83 +149,144 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  // ───────────────────────────────────────────────
-  // RENDER COURSES & LESSONS (CLICKABLE)
-  // ───────────────────────────────────────────────
-  function renderCourses() {
-    coursesList.innerHTML = ""; // Clear
+  /* ───────────────────────────────────────────────
+     HELPERS
+     ─────────────────────────────────────────────── */
+  const scrollChatToBottom = () => {
+    if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+  };
 
-    coursesData.forEach((course) => {
-      // Course item
+  const clearActiveHighlights = (selector) => {
+    document.querySelectorAll(selector).forEach(el => el.classList.remove("active"));
+  };
+
+  const saveSelection = (courseId, lessonId) => {
+    localStorage.setItem("wofaActiveCourse", courseId);
+    localStorage.setItem("wofaActiveLesson", lessonId);
+  };
+
+  /* ───────────────────────────────────────────────
+     LOAD LESSON CONTENT (called when lesson clicked)
+     ─────────────────────────────────────────────── */
+  const loadLessonContent = (courseId, lessonId) => {
+    if (!chatBox) return;
+
+    const selectedCourse = coursesData.find(c => c.id === courseId);
+    const selectedLesson = selectedCourse?.lessons.find(l => l.id === lessonId);
+
+    if (!selectedCourse || !selectedLesson) {
+      console.warn("Course or lesson not found:", courseId, lessonId);
+      return;
+    }
+
+    // Save selection for next visit
+    saveSelection(courseId, lessonId);
+
+    // Add message to chat
+    const message = document.createElement("div");
+    message.className = "message ai";
+    message.innerHTML = `
+      <strong>Selected Lesson:</strong><br>
+      <b>Course:</b> ${selectedCourse.title}<br>
+      <b>Lesson:</b> ${selectedLesson.title}<br><br>
+      I'm ready to help you learn this topic.<br>
+      <em>Ask any question about it now!</em>
+    `;
+
+    chatBox.appendChild(message);
+    scrollChatToBottom();
+
+    // Auto-focus input
+    questionInput?.focus();
+  };
+
+  /* ───────────────────────────────────────────────
+     RESTORE LAST SELECTION (on page load)
+     ─────────────────────────────────────────────── */
+  const restoreLastSelection = () => {
+    const savedCourse = localStorage.getItem("wofaActiveCourse");
+    const savedLesson = localStorage.getItem("wofaActiveLesson");
+
+    if (savedCourse && savedLesson) {
+      loadLessonContent(savedCourse, savedLesson);
+    }
+  };
+
+  /* ───────────────────────────────────────────────
+     RENDER ALL COURSES & LESSONS
+     ─────────────────────────────────────────────── */
+  const renderCourses = () => {
+    coursesList.innerHTML = "";
+
+    coursesData.forEach(course => {
+      // Course element
       const courseLi = document.createElement("li");
       courseLi.className = "course-item";
       courseLi.textContent = course.title;
       courseLi.dataset.courseId = course.id;
+      courseLi.setAttribute("role", "button");
+      courseLi.setAttribute("tabindex", "0");
+      courseLi.setAttribute("aria-expanded", "false");
 
-      // Click → toggle lessons + highlight
-      courseLi.addEventListener("click", () => {
-        // Remove active from all courses
-        document.querySelectorAll(".course-item").forEach(el => el.classList.remove("active"));
+      // Toggle lessons on click (mouse + keyboard)
+      const toggleLessons = () => {
+        clearActiveHighlights(".course-item");
         courseLi.classList.add("active");
+        courseLi.setAttribute("aria-expanded", "true");
 
-        // Toggle lessons
         let lessonUl = courseLi.nextElementSibling;
         if (lessonUl && lessonUl.classList.contains("lesson-list")) {
-          lessonUl.classList.toggle("open");
-        } else {
-          lessonUl = document.createElement("ul");
-          lessonUl.className = "lesson-list open";
-          courseLi.insertAdjacentElement("afterend", lessonUl);
+          const isOpen = lessonUl.classList.toggle("open");
+          courseLi.setAttribute("aria-expanded", isOpen);
+          return;
+        }
 
-          course.lessons.forEach((lesson) => {
-            const lessonLi = document.createElement("li");
-            lessonLi.className = "lesson-item";
-            lessonLi.textContent = lesson.title;
-            lessonLi.dataset.lessonId = lesson.id;
-            lessonLi.dataset.courseId = course.id;
+        // Create lessons list
+        lessonUl = document.createElement("ul");
+        lessonUl.className = "lesson-list open";
+        courseLi.insertAdjacentElement("afterend", lessonUl);
 
-            // Lesson click → load content / trigger AI
-            lessonLi.addEventListener("click", () => {
-              document.querySelectorAll(".lesson-item").forEach(el => el.classList.remove("active"));
-              lessonLi.classList.add("active");
+        course.lessons.forEach(lesson => {
+          const lessonLi = document.createElement("li");
+          lessonLi.className = "lesson-item";
+          lessonLi.textContent = lesson.title;
+          lessonLi.dataset.lessonId = lesson.id;
+          lessonLi.dataset.courseId = course.id;
+          lessonLi.setAttribute("role", "button");
+          lessonLi.setAttribute("tabindex", "0");
 
-              // Call function to handle lesson selection
-              loadLessonContent(course.id, lesson.id);
-            });
-
-            lessonUl.appendChild(lessonLi);
+          lessonLi.addEventListener("click", (e) => {
+            e.stopPropagation();
+            clearActiveHighlights(".lesson-item");
+            lessonLi.classList.add("active");
+            loadLessonContent(course.id, lesson.id);
           });
+
+          // Keyboard support
+          lessonLi.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              lessonLi.click();
+            }
+          });
+
+          lessonUl.appendChild(lessonLi);
+        });
+      };
+
+      courseLi.addEventListener("click", toggleLessons);
+      courseLi.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleLessons();
         }
       });
 
       coursesList.appendChild(courseLi);
     });
-  }
+  };
 
-  // ───────────────────────────────────────────────
-  // WHEN USER CLICKS A LESSON –> THIS FUNCTION RUNS
-  // ───────────────────────────────────────────────
-  function loadLessonContent(courseId, lessonId) {
-    const chatBox = document.getElementById("chatBox");
-
-    // Optional: Clear previous messages or keep history
-    // chatBox.innerHTML = "";
-
-    const message = document.createElement("div");
-    message.className = "message ai";
-    message.innerHTML = `
-      <strong>Selected:</strong> ${coursesData.find(c => c.id === courseId)?.title || courseId} → ${lessonId}<br>
-      WOFA AI is ready to teach/explain this lesson.<br>
-      <em>Ask any question about it now!</em>
-    `;
-    chatBox.appendChild(message);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    // Optional: auto-focus input for immediate question
-    document.getElementById("questionInput")?.focus();
-  }
-
-  // Load everything when page opens
+  // Initialize
   renderCourses();
+  restoreLastSelection();
 });
