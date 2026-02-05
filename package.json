@@ -1,35 +1,20 @@
 {
-  "name": "wofa-ai-backend",
-  "version": "1.0.0",
+  "name": "wofa-ai-frontend",
   "private": true,
-  "description": "WOFA AI backend server",
-  "main": "server.js",
-  "type": "commonjs",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "author": "Prophet Joseph",
-  "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "compression": "^1.7.5",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.1",
-    "google-auth-library": "^8.9.0",
-    "helmet": "^8.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.8.0",
-    "morgan": "^1.10.0",
-    "openai": "^4.80.0"
+    "axios": "^1.7.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
   }
 }
