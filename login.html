@@ -2,46 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WOFA AI – Login</title>
 
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="css/login.css" />
 </head>
-<body class="auth-page">
 
-  <div class="auth-container">
-    <h2>Login to WOFA AI</h2>
+<body>
 
-    <!-- EMAIL LOGIN -->
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
+  <div class="login-wrapper">
 
-    <p style="margin: 10px 0;">OR</p>
+    <!-- =========================
+         TOP BAR
+         ========================= -->
+    <div class="login-topbar">
 
-    <!-- GOOGLE LOGIN -->
-    <div
-      id="g_id_onload"
-      data-client_id="621972422928-phc9pjhqqfs041tr51cvkei1jnoh1v7d.apps.googleusercontent.com"
-      data-callback="handleGoogleLogin"
-      data-auto_prompt="false">
+      <!-- LEFT YELLOW (Register with Google) -->
+      <button class="google-action-btn register-google" onclick="window.location.href='register.html'">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+        Register with Google
+      </button>
+
+      <!-- RED CIRCLE (Centered Logo) -->
+      <div class="logo-center">
+        <img src="assets/logo.png" alt="WOFA AI Logo" class="login-logo" />
+      </div>
+
+      <!-- RIGHT YELLOW (Login with Google) -->
+      <button class="google-action-btn login-google" id="googleLoginBtn">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+        Login with Google
+      </button>
+
     </div>
 
-    <div
-      class="g_id_signin"
-      data-type="standard"
-      data-size="large"
-      data-theme="outline"
-      data-text="continue_with"
-      data-shape="rectangular"
-      data-logo_alignment="left">
+    <!-- =========================
+         MAIN LOGIN CARD
+         ========================= -->
+    <div class="login-card">
+
+      <div class="login-header">
+        <h1>WOFA AI</h1>
+        <p>Your Visual Learning Companion</p>
+      </div>
+
+      <!-- FORM -->
+      <form id="loginForm" class="login-form">
+
+        <h2>Login</h2>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required />
+        </div>
+
+        <button type="submit" class="login-btn">
+          Login
+        </button>
+
+        <div class="login-links">
+          <p>
+            Don’t have an account?
+            <a href="register.html">Register</a>
+          </p>
+        </div>
+
+      </form>
+
     </div>
 
-    <p style="margin-top: 12px;">
-      New here? <a href="register.html">Create an account</a>
-    </p>
   </div>
 
+  <!-- Scripts -->
   <script src="js/login.js"></script>
+
 </body>
 </html>
