@@ -88,14 +88,29 @@
         </div>
 
         <div class="chat-actions">
-          <button class="action-btn talk-btn" onclick="readLastAnswer()">
-            🔊 LISTEN
-          </button>
 
-          <button class="action-btn clear-btn" onclick="clearChat()">
-            🧹 Clear
-          </button>
-        </div>
+  <button class="action-btn talk-btn" onclick="readLastAnswer()">
+    🔊 LISTEN
+  </button>
+
+  <button class="action-btn" onclick="pauseSpeaking()">
+    ⏸ Pause
+  </button>
+<button class="action-btn" onclick="stopSpeaking()">
+    ⛔ Stop
+  </button>
+  <button class="action-btn" onclick="resumeSpeaking()">
+    ▶ Resume
+  </button>
+
+  
+
+  <button class="action-btn clear-btn" onclick="clearChat()">
+    🧹 Clear
+  </button>
+
+</div>
+
 
       </section>
 
