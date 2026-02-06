@@ -1,0 +1,16 @@
+{
+  "name": "wofa-ai-frontend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "WOFA AI Frontend (Static HTML/CSS/JS with OpenAI backend)",
+  "scripts": {
+    "dev": "serve .",
+    "start": "serve .",
+    "build": "echo \"Static frontend - no build required\""
+  },
+  "devDependencies": {
+    "serve": "^14.2.5"
+  },
+  "author": "Prophet Joseph",
+  "license": "ISC"
+}
