@@ -4,9 +4,11 @@
    - Authentication Removed
    - Groq AI Backend Support
    - Courses/Lessons Optional
-   - Smart Tutor Mode
+   - Smart Tutor Mode (Kids + Adult)
    - Voice Input + Voice Output
-   - Clean UI Engine
+   - Auto Speak After Typing
+   - Sentence-by-sentence Reading
+   - Pause + Resume + Stop Support
    ========================================================== */
 
 /* =========================
@@ -14,7 +16,13 @@
    ========================= */
 let lastAIMessageElement = null;
 let isThinking = false;
+let autoSpeakEnabled = true;
+
+// Speech state
 let speechUtterance = null;
+let speechSentences = [];
+let speechIndex = 0;
+let isPaused = false;
 
 /* =========================
    DOM ELEMENTS
@@ -55,9 +63,23 @@ function scrollChatToBottom() {
 }
 
 function sanitizeHTML(text) {
-  return text
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/* =========================
+   TEXT SPLITTER (SENTENCE MODE)
+   ========================= */
+function splitIntoSentences(text) {
+  if (!text) return [];
+
+  const cleaned = text
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return [];
+
+  return cleaned.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [cleaned];
 }
 
 /* =========================
@@ -71,20 +93,75 @@ function getLearningContext() {
 }
 
 /* =========================
+   DETECT CHILD / MONTESSORI MODE
+   ========================= */
+function isKidsMode(course, lesson) {
+  const text = `${course || ""} ${lesson || ""}`.toLowerCase();
+
+  return (
+    text.includes("montessori") ||
+    text.includes("primary") ||
+    text.includes("kids") ||
+    text.includes("children") ||
+    text.includes("ages 3") ||
+    text.includes("ages 6") ||
+    text.includes("ages 12")
+  );
+}
+
+/* =========================
    SMART QUESTION BUILDER
    ========================= */
 function buildSmartQuestion(userQuestion) {
   const { course, lesson } = getLearningContext();
+  const kidsMode = isKidsMode(course, lesson);
 
   if (userQuestion && userQuestion.trim().length > 0) {
+    if (kidsMode) {
+      return `
+You are teaching a CHILD.
+Use very simple English.
+Use short sentences.
+Use friendly examples.
+Use emojis.
+Explain step-by-step.
+Ask one small question at the end.
+
+Child Question: ${userQuestion}
+      `;
+    }
+
     return userQuestion;
   }
 
   if (course && lesson) {
+    if (kidsMode) {
+      return `
+Teach this lesson for a CHILD (Montessori style):
+Lesson: ${lesson}
+
+Rules:
+- Explain slowly step-by-step
+- Use simple English
+- Use fun examples children understand
+- Use short sentences
+- Ask 3 simple practice questions
+- End with encouragement
+      `;
+    }
+
     return `Teach me this lesson: ${lesson}. Start from beginner level and explain step-by-step with examples and exercises.`;
   }
 
   if (course && !lesson) {
+    if (kidsMode) {
+      return `
+Teach the topic "${course}" like a Montessori teacher.
+Use simple English, short sentences, and examples children understand.
+Give small practice questions.
+      `;
+    }
+
     return `Teach me the topic: ${course}. Start from the basics and build gradually with examples and practice questions.`;
   }
 
@@ -124,6 +201,95 @@ function removeThinking() {
 }
 
 /* =========================
+   SPEECH ENGINE (LINE BY LINE)
+   ========================= */
+function stopSpeaking() {
+  window.speechSynthesis.cancel();
+  speechSentences = [];
+  speechIndex = 0;
+  isPaused = false;
+}
+
+function pauseSpeaking() {
+  if (window.speechSynthesis.speaking) {
+    window.speechSynthesis.pause();
+    isPaused = true;
+  }
+}
+
+function resumeSpeaking() {
+  if (window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+    isPaused = false;
+  }
+}
+
+/* =========================
+   SPEAK NEXT SENTENCE
+   ========================= */
+function speakNextSentence() {
+  if (speechIndex >= speechSentences.length) {
+    stopSpeaking();
+    return;
+  }
+
+  const line = speechSentences[speechIndex].trim();
+  if (!line) {
+    speechIndex++;
+    speakNextSentence();
+    return;
+  }
+
+  speechUtterance = new SpeechSynthesisUtterance(line);
+  speechUtterance.lang = "en-US";
+  speechUtterance.rate = 0.95;
+  speechUtterance.pitch = 1;
+
+  speechUtterance.onend = () => {
+    if (!isPaused) {
+      speechIndex++;
+      speakNextSentence();
+    }
+  };
+
+  speechUtterance.onerror = () => {
+    speechIndex++;
+    speakNextSentence();
+  };
+
+  window.speechSynthesis.speak(speechUtterance);
+}
+
+/* =========================
+   SPEAK LINE BY LINE (START)
+   ========================= */
+function speakLineByLine(text) {
+  stopSpeaking();
+
+  speechSentences = splitIntoSentences(text);
+  speechIndex = 0;
+  isPaused = false;
+
+  speakNextSentence();
+}
+
+/* =========================
+   READ LAST ANSWER
+   ========================= */
+function readLastAnswer() {
+  if (!lastAIMessageElement) {
+    alert("No AI answer yet.");
+    return;
+  }
+
+  const cleanText = lastAIMessageElement.innerText
+    .replace("🔊 Listen", "")
+    .trim();
+
+  speakLineByLine(cleanText);
+}
+
+/* =========================
    AI MESSAGE (TYPING EFFECT)
    ========================= */
 async function typeAIMessage(text) {
@@ -152,36 +318,12 @@ async function typeAIMessage(text) {
 
   msg.appendChild(speakBtn);
   scrollChatToBottom();
-}
 
-/* =========================
-   VOICE OUTPUT (TEXT TO SPEECH)
-   ========================= */
-function speakText(text) {
-  if (!text) return;
-
-  window.speechSynthesis.cancel();
-
-  speechUtterance = new SpeechSynthesisUtterance(text);
-  speechUtterance.lang = "en-US";
-  speechUtterance.rate = 0.95;
-  speechUtterance.pitch = 1;
-
-  window.speechSynthesis.speak(speechUtterance);
-}
-
-function readLastAnswer() {
-  if (!lastAIMessageElement) {
-    alert("No AI answer yet.");
-    return;
+  // ✅ AUTO SPEAK AFTER FINISH TYPING
+  if (autoSpeakEnabled) {
+    const cleanText = msg.innerText.replace("🔊 Listen", "").trim();
+    speakLineByLine(cleanText);
   }
-
-  const cleanText = lastAIMessageElement.innerText.replace("🔊 Listen", "").trim();
-  speakText(cleanText);
-}
-
-function stopSpeaking() {
-  window.speechSynthesis.cancel();
 }
 
 /* =========================

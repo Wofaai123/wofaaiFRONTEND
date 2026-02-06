@@ -29,6 +29,24 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "act107", title: "Poverty, Justice & Biblical Themes" },
         { id: "act108", title: "Church Leadership & Administration in Africa" }
       ]
+     
+  },
+  {
+  id: "prophetic-work",
+  title: "Prophetic Work & Spiritual Authority",
+  lessons: [
+    { id: "pw101", title: "The Seven Spirits of God (Isaiah 11:2)" },
+    { id: "pw102", title: "Ways to Hear the Voice of God" },
+    { id: "pw103", title: "Power (Dunamis) and Spiritual Strength" },
+    { id: "pw104", title: "Meditation and Spiritual Sensitivity" },
+    { id: "pw105", title: "Tithes, Offerings, and Sacrifices" },
+    { id: "pw106", title: "Healing Ministry and Divine Health" },
+    { id: "pw107", title: "Deliverance (Exorcism) and Spiritual Warfare" },
+    { id: "pw108", title: "The Fivefold Ministries (Ephesians 4:11)" },
+    { id: "pw109", title: "Prophetic Prayer and Intercession" }
+   ]
+
+
     },
     {
       id: "theology-islamic",
@@ -85,6 +103,83 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ict105", title: "Cloud Computing & Virtualization" }
       ]
     },
+
+     {
+  id: "montessori",
+  title: "Montessori Education (Ages 2–6)",
+  lessons: [
+    { id: "mon101", title: "Introduction to Montessori Learning" },
+    { id: "mon102", title: "Practical Life Activities (Daily Skills)" },
+    { id: "mon103", title: "Sensorial Activities (Learning Through Senses)" },
+    { id: "mon104", title: "Montessori Numbers & Counting" },
+    { id: "mon105", title: "Montessori Alphabet & Phonics" },
+    { id: "mon106", title: "Montessori Storytelling and Language Development" },
+    { id: "mon107", title: "Shapes, Colors, and Patterns" },
+    { id: "mon108", title: "Montessori Classroom Rules & Discipline" },
+    { id: "mon109", title: "Early Writing Skills (Tracing & Pencil Control)" },
+    { id: "mon110", title: "Montessori Science: Plants, Animals & Nature" },
+  ],
+},
+
+{
+  id: "primary-education-international",
+  title: "Primary Education (International Standard)",
+  lessons: [
+    { id: "pri101", title: "English Grammar Basics (Nouns, Verbs, Adjectives)" },
+    { id: "pri102", title: "Reading Comprehension and Story Analysis" },
+    { id: "pri103", title: "Creative Writing (Paragraph Writing)" },
+    { id: "pri104", title: "Mathematics: Addition, Subtraction, Multiplication, Division" },
+    { id: "pri105", title: "Fractions and Decimals for Primary Level" },
+    { id: "pri106", title: "Basic Science: Human Body and Health" },
+    { id: "pri107", title: "Basic Science: Plants and Animals" },
+    { id: "pri108", title: "Social Studies: Community and Citizenship" },
+    { id: "pri109", title: "Geography: Continents, Oceans and Maps" },
+    { id: "pri110", title: "ICT for Kids: Computer Basics and Typing Skills" },
+    { id: "pri111", title: "Moral Education and Good Behaviour" },
+    { id: "pri112", title: "Creative Arts: Drawing, Coloring and Craftwork" },
+  ],
+},
+
+{
+  id: "secondary-education-africa",
+  title: "Secondary School Education (Africa - WAEC/BECE/SHS)",
+  lessons: [
+    { id: "sec101", title: "English Language: Grammar, Comprehension & Essay Writing" },
+    { id: "sec102", title: "Mathematics: Algebra, Geometry & Statistics" },
+    { id: "sec103", title: "Integrated Science: Biology, Chemistry & Physics Basics" },
+    { id: "sec104", title: "Social Studies: Governance, Culture & Development" },
+    { id: "sec105", title: "ICT: Microsoft Office, Internet, and Digital Literacy" },
+    { id: "sec106", title: "Economics: Demand & Supply, Inflation and GDP" },
+    { id: "sec107", title: "Government: Constitution and Political Systems" },
+    { id: "sec108", title: "History: African Civilizations and Colonialism" },
+    { id: "sec109", title: "Elective Mathematics: Trigonometry and Calculus Intro" },
+    { id: "sec110", title: "Biology: Cells, Reproduction and Ecology" },
+    { id: "sec111", title: "Chemistry: Periodic Table and Chemical Reactions" },
+    { id: "sec112", title: "Physics: Motion, Energy and Electricity" },
+    { id: "sec113", title: "Literature: Poetry, Drama and Prose Analysis" },
+    { id: "sec114", title: "Business Management: Entrepreneurship and Accounting Basics" },
+  ],
+},
+
+{
+  id: "ashanti-empire",
+  title: "The Ashanti Empire (Ghana History & Civilization)",
+  lessons: [
+    { id: "ash101", title: "Origins of the Ashanti Kingdom" },
+    { id: "ash102", title: "The Golden Stool and Ashanti Spiritual Beliefs" },
+    { id: "ash103", title: "Osei Tutu and the Formation of the Empire" },
+    { id: "ash104", title: "Komfo Anokye and Religious Authority" },
+    { id: "ash105", title: "Ashanti Political System and Governance" },
+    { id: "ash106", title: "Ashanti Military Power and Wars" },
+    { id: "ash107", title: "Ashanti Economy: Trade, Gold and Markets" },
+    { id: "ash108", title: "Ashanti Culture: Festivals, Language and Traditions" },
+    { id: "ash109", title: "Ashanti and European Contact (British & Dutch)" },
+    { id: "ash110", title: "The Anglo-Ashanti Wars Explained" },
+    { id: "ash111", title: "Yaa Asantewaa and the War of 1900" },
+    { id: "ash112", title: "Decline of the Ashanti Empire and Colonial Rule" },
+    { id: "ash113", title: "Modern Ashanti Influence in Ghana Today" },
+  ],
+},
 
     // ───────────────────────────────────────────────
     // BUSINESS & PRACTICAL ECONOMICS (GHANA + GLOBAL)
