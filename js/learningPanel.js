@@ -1,6 +1,6 @@
 // js/learningPanel.js - WOFA AI Courses & Lessons Panel (Clean Version Feb 2026)
 // Works fully without MongoDB
-// Saves selected Course + Lesson titles for OpenAI context
+// Saves selected Course + Lesson titles for AI context (Groq / OpenAI / Any Backend)
 
 document.addEventListener("DOMContentLoaded", () => {
   const coursesList = document.getElementById("coursesList");
@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "act105", title: "Missions and Evangelism in African Contexts" },
         { id: "act106", title: "Prophecy and African Prophets" },
         { id: "act107", title: "Poverty, Justice & Biblical Themes" },
-        { id: "act108", title: "Church Leadership & Administration in Africa" },
-      ],
+        { id: "act108", title: "Church Leadership & Administration in Africa" }
+      ]
     },
     {
       id: "theology-islamic",
@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "isa103", title: "Sharia Application in African Societies" },
         { id: "isa104", title: "Contemporary Muslim Issues in Africa" },
         { id: "isa105", title: "Interfaith Dialogue: Christian-Muslim Relations" },
-        { id: "isa106", title: "Islamic Ethics and Social Justice" },
-      ],
+        { id: "isa106", title: "Islamic Ethics and Social Justice" }
+      ]
     },
     {
       id: "african-spirituality",
@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ais102", title: "Ancestor Veneration & Rituals" },
         { id: "ais103", title: "Syncretism: Christianity, Islam & Indigenous Faiths" },
         { id: "ais104", title: "Spirituality, Environment & Sustainability" },
-        { id: "ais105", title: "Peacebuilding Through Interfaith Dialogue" },
-      ],
+        { id: "ais105", title: "Peacebuilding Through Interfaith Dialogue" }
+      ]
     },
     {
       id: "bba",
@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "bba101", title: "Introduction to Business" },
         { id: "bba102", title: "Principles of Management" },
         { id: "bba103", title: "Financial Accounting" },
-        { id: "bba104", title: "Business Mathematics" },
-      ],
+        { id: "bba104", title: "Business Mathematics" }
+      ]
     },
     {
       id: "african-entrepreneurship",
@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "aei102", title: "Fintech and Mobile Money" },
         { id: "aei103", title: "Agribusiness & Value Chains" },
         { id: "aei104", title: "Women in African Business Leadership" },
-        { id: "aei105", title: "Scaling Ventures in Emerging Markets" },
-      ],
+        { id: "aei105", title: "Scaling Ventures in Emerging Markets" }
+      ]
     },
     {
       id: "ict",
@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ict102", title: "Networking & Internet Technologies" },
         { id: "ict103", title: "Database Management Systems" },
         { id: "ict104", title: "Cybersecurity Basics" },
-        { id: "ict105", title: "Cloud Computing & Virtualization" },
-      ],
+        { id: "ict105", title: "Cloud Computing & Virtualization" }
+      ]
     },
 
     // ───────────────────────────────────────────────
@@ -98,10 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "bc103", title: "Business Report Writing" },
         { id: "bc104", title: "Presentation Skills and Public Speaking" },
         { id: "bc105", title: "Negotiation and Conflict Resolution" },
-        { id: "bc106", title: "Professional Communication Etiquette" },
-      ],
+        { id: "bc106", title: "Professional Communication Etiquette" }
+      ]
     },
-
     {
       id: "entrepreneurship",
       title: "Entrepreneurship",
@@ -112,10 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ent104", title: "Startup Funding in Ghana" },
         { id: "ent105", title: "Marketing Strategies for Small Businesses" },
         { id: "ent106", title: "Customer Service and Business Growth" },
-        { id: "ent107", title: "Managing Risk in Business" },
-      ],
+        { id: "ent107", title: "Managing Risk in Business" }
+      ]
     },
-
     {
       id: "ghana-law-constitution",
       title: "Ghana Law & Constitution",
@@ -126,10 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "glc104", title: "Branches of Government (Executive, Legislature, Judiciary)" },
         { id: "glc105", title: "Citizenship and National Duties" },
         { id: "glc106", title: "Rule of Law and Democracy in Ghana" },
-        { id: "glc107", title: "Key Constitutional Bodies in Ghana" },
-      ],
+        { id: "glc107", title: "Key Constitutional Bodies in Ghana" }
+      ]
     },
-
     {
       id: "procurement",
       title: "Procurement & Supply Chain",
@@ -140,10 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "pro104", title: "Tendering, Bidding and Contract Award" },
         { id: "pro105", title: "Supplier Evaluation and Vendor Management" },
         { id: "pro106", title: "Ethics in Procurement" },
-        { id: "pro107", title: "Logistics and Inventory Management" },
-      ],
+        { id: "pro107", title: "Logistics and Inventory Management" }
+      ]
     },
-
     {
       id: "demand-supply",
       title: "Demand & Supply (Economics)",
@@ -154,10 +150,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ds104", title: "Market Equilibrium" },
         { id: "ds105", title: "Factors Affecting Demand and Supply" },
         { id: "ds106", title: "Price Elasticity of Demand and Supply" },
-        { id: "ds107", title: "Practical Market Examples in Ghana" },
-      ],
+        { id: "ds107", title: "Practical Market Examples in Ghana" }
+      ]
     },
-
     {
       id: "practical-business",
       title: "Practical Business (Real-Life Skills)",
@@ -169,10 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "pb105", title: "Sales and Customer Relationship Management" },
         { id: "pb106", title: "How to Advertise Online (WhatsApp, Facebook, Instagram)" },
         { id: "pb107", title: "Business Risk and Fraud Prevention" },
-        { id: "pb108", title: "Managing Employees and Workplace Discipline" },
-      ],
+        { id: "pb108", title: "Managing Employees and Workplace Discipline" }
+      ]
     },
-
     {
       id: "computer-science",
       title: "Computer Science Fundamentals",
@@ -181,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "cs102", title: "Data Structures & Algorithms" },
         { id: "cs103", title: "Operating Systems & Architecture" },
         { id: "cs104", title: "Software Engineering Principles" },
-        { id: "cs105", title: "Artificial Intelligence & Machine Learning Intro" },
-      ],
+        { id: "cs105", title: "Artificial Intelligence & Machine Learning Intro" }
+      ]
     },
     {
       id: "coding",
@@ -192,8 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "cod102", title: "JavaScript & Web Development" },
         { id: "cod103", title: "Java Programming" },
         { id: "cod104", title: "Mobile App Development (Flutter/React Native)" },
-        { id: "cod105", title: "Full-Stack Development Project" },
-      ],
+        { id: "cod105", title: "Full-Stack Development Project" }
+      ]
     },
     {
       id: "robotics",
@@ -202,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "rob-montessori", title: "Montessori Level: Sensory Robotics & Basic Physics (Ages 3–6)" },
         { id: "rob-primary", title: "Primary Level: Simple Machines, Logic & Intro Coding (Ages 6–12)" },
         { id: "rob-secondary", title: "Secondary Level: Electronics, Sensors, Arduino & Chemistry Basics (Ages 12–18)" },
-        { id: "rob-university", title: "University Level: AI Robotics, Automation, Advanced Physics & Engineering" },
-      ],
+        { id: "rob-university", title: "University Level: AI Robotics, Automation, Advanced Physics & Engineering" }
+      ]
     },
     {
       id: "african-history-dev",
@@ -212,8 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ahd101", title: "Pre-Colonial African Societies" },
         { id: "ahd102", title: "Colonialism & Its Lasting Impact" },
         { id: "ahd103", title: "Pan-Africanism & Independence Movements" },
-        { id: "ahd104", title: "Modern African Political Economy" },
-      ],
+        { id: "ahd104", title: "Modern African Political Economy" }
+      ]
     },
     {
       id: "public-health-africa",
@@ -222,8 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "pha101", title: "Tropical Diseases & Epidemiology" },
         { id: "pha102", title: "HIV/AIDS & Infectious Disease Control" },
         { id: "pha103", title: "Maternal & Child Health in Africa" },
-        { id: "pha104", title: "Health Systems Strengthening" },
-      ],
+        { id: "pha104", title: "Health Systems Strengthening" }
+      ]
     },
     {
       id: "sustainable-dev-africa",
@@ -232,9 +226,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "sda101", title: "SDGs Localization in Africa" },
         { id: "sda102", title: "Climate Resilience & Adaptation" },
         { id: "sda103", title: "Renewable Energy Solutions" },
-        { id: "sda104", title: "Food Security & Agriculture" },
-      ],
-    },
+        { id: "sda104", title: "Food Security & Agriculture" }
+      ]
+    }
   ];
 
   /* ───────────────────────────────────────────────
@@ -246,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function clearActive(selector) {
-    document.querySelectorAll(selector).forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(selector).forEach((el) => el.classList.remove("active"));
   }
 
   function saveSelection(courseTitle, lessonTitle) {
@@ -262,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ───────────────────────────────────────────────
-     CHAT DISPLAY (SHOW LESSON SELECTION)
+     DISPLAY SELECTED LESSON MESSAGE
      ─────────────────────────────────────────────── */
   function showLessonSelected(courseTitle, lessonTitle) {
     if (!chatBox) return;
@@ -289,8 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCourses() {
     coursesList.innerHTML = "";
 
-    coursesData.forEach(course => {
-      // Course List Item
+    coursesData.forEach((course) => {
       const courseLi = document.createElement("li");
       courseLi.className = "course-item";
       courseLi.textContent = course.title;
@@ -298,24 +291,23 @@ document.addEventListener("DOMContentLoaded", () => {
       courseLi.setAttribute("tabindex", "0");
       courseLi.setAttribute("aria-expanded", "false");
 
-      // Lessons List (hidden until click)
       const lessonUl = document.createElement("ul");
       lessonUl.className = "lesson-list";
 
-      course.lessons.forEach(lesson => {
+      course.lessons.forEach((lesson) => {
         const lessonLi = document.createElement("li");
         lessonLi.className = "lesson-item";
         lessonLi.textContent = lesson.title;
         lessonLi.setAttribute("role", "button");
         lessonLi.setAttribute("tabindex", "0");
 
-        const selectLesson = () => {
+        function selectLesson() {
           clearActive(".lesson-item");
           lessonLi.classList.add("active");
 
           saveSelection(course.title, lesson.title);
           showLessonSelected(course.title, lesson.title);
-        };
+        }
 
         lessonLi.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -332,14 +324,13 @@ document.addEventListener("DOMContentLoaded", () => {
         lessonUl.appendChild(lessonLi);
       });
 
-      // Toggle lessons
-      const toggleLessons = () => {
+      function toggleLessons() {
         clearActive(".course-item");
         courseLi.classList.add("active");
 
         const isOpen = lessonUl.classList.toggle("open");
         courseLi.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      };
+      }
 
       courseLi.addEventListener("click", toggleLessons);
 
@@ -356,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ───────────────────────────────────────────────
-     RESTORE PREVIOUS SELECTION
+     RESTORE LAST SELECTION
      ─────────────────────────────────────────────── */
   function restoreSelection() {
     const saved = getSavedSelection();
@@ -366,7 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Initialize panel
   renderCourses();
   restoreSelection();
 });

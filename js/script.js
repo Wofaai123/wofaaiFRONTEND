@@ -1,33 +1,26 @@
 /* ==========================================================
-   WOFA AI SCRIPT.JS (2026 AI BACKBONE VERSION)
-   - No MongoDB
-   - No Login
-   - OpenAI is the brain
-   - Courses/Lessons optional
-   - Smart teaching mode
-   - Image support
-   - Voice support
+   WOFA AI FRONTEND SCRIPT.JS (Feb 2026 - Groq Version)
+   - MongoDB Removed
+   - Authentication Removed
+   - Groq AI Backend Support
+   - Courses/Lessons Optional
+   - Smart Tutor Mode
+   - Voice Input + Voice Output
+   - Clean UI Engine
    ========================================================== */
-
-/* =========================
-   API BASE
-   ========================= */
-const API_BASE = "https://wofa-ai-backend.onrender.com/api";
 
 /* =========================
    GLOBAL STATE
    ========================= */
 let lastAIMessageElement = null;
-let lastUploadedImage = null;
-let speechUtterance = null;
 let isThinking = false;
+let speechUtterance = null;
 
 /* =========================
    DOM ELEMENTS
    ========================= */
 const chatBox = document.getElementById("chatBox");
 const input = document.getElementById("questionInput");
-const imageInput = document.getElementById("imageInput");
 const darkToggle = document.getElementById("darkToggle");
 
 /* =========================
@@ -35,6 +28,7 @@ const darkToggle = document.getElementById("darkToggle");
    ========================= */
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
+
   localStorage.setItem(
     "theme",
     document.body.classList.contains("dark") ? "dark" : "light"
@@ -60,37 +54,53 @@ function scrollChatToBottom() {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* =========================
-   VOICE OUTPUT (TALK MODE)
-   ========================= */
-function speakText(text) {
-  if (!text) return;
-
-  window.speechSynthesis.cancel();
-
-  speechUtterance = new SpeechSynthesisUtterance(text);
-  speechUtterance.lang = "en-US";
-  speechUtterance.rate = 0.95;
-  speechUtterance.pitch = 1;
-
-  window.speechSynthesis.speak(speechUtterance);
+function sanitizeHTML(text) {
+  return text
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
-function readLastAnswer() {
-  if (!lastAIMessageElement) {
-    alert("No AI answer yet.");
-    return;
+/* =========================
+   GET LEARNING CONTEXT
+   ========================= */
+function getLearningContext() {
+  return {
+    course: localStorage.getItem("wofaActiveCourse") || null,
+    lesson: localStorage.getItem("wofaActiveLesson") || null
+  };
+}
+
+/* =========================
+   SMART QUESTION BUILDER
+   ========================= */
+function buildSmartQuestion(userQuestion) {
+  const { course, lesson } = getLearningContext();
+
+  if (userQuestion && userQuestion.trim().length > 0) {
+    return userQuestion;
   }
 
-  const cleanText = lastAIMessageElement.innerText
-    .replace("🔊 Listen", "")
-    .trim();
+  if (course && lesson) {
+    return `Teach me this lesson: ${lesson}. Start from beginner level and explain step-by-step with examples and exercises.`;
+  }
 
-  speakText(cleanText);
+  if (course && !lesson) {
+    return `Teach me the topic: ${course}. Start from the basics and build gradually with examples and practice questions.`;
+  }
+
+  return "Teach me something valuable today in a clear step-by-step way.";
 }
 
-function stopSpeaking() {
-  window.speechSynthesis.cancel();
+/* =========================
+   ADD USER MESSAGE
+   ========================= */
+function addUserMessage(text) {
+  const msg = document.createElement("div");
+  msg.className = "message user";
+  msg.innerHTML = sanitizeHTML(text).replace(/\n/g, "<br>");
+
+  chatBox.appendChild(msg);
+  scrollChatToBottom();
 }
 
 /* =========================
@@ -114,197 +124,64 @@ function removeThinking() {
 }
 
 /* =========================
-   ADD USER MESSAGE
-   ========================= */
-function addUserMessage(text, images = []) {
-  const msg = document.createElement("div");
-  msg.className = "message user";
-  msg.innerHTML = text.replace(/\n/g, "<br>");
-
-  images.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.style.maxWidth = "240px";
-    img.style.borderRadius = "12px";
-    img.style.marginTop = "8px";
-    msg.appendChild(img);
-  });
-
-  chatBox.appendChild(msg);
-  scrollChatToBottom();
-}
-
-/* =========================
-   ADD AI MESSAGE (TYPING EFFECT)
+   AI MESSAGE (TYPING EFFECT)
    ========================= */
 async function typeAIMessage(text) {
   const msg = document.createElement("div");
   msg.className = "message ai";
   chatBox.appendChild(msg);
 
-  let i = 0;
-  const speed = 12;
+  const safeText = sanitizeHTML(text);
 
-  while (i < text.length) {
-    msg.innerHTML = text.slice(0, i).replace(/\n/g, "<br>");
+  let i = 0;
+  const speed = 10;
+
+  while (i < safeText.length) {
+    msg.innerHTML = safeText.slice(0, i).replace(/\n/g, "<br>");
     i++;
     scrollChatToBottom();
     await sleep(speed);
   }
 
-  // Save last AI message
   lastAIMessageElement = msg;
 
-  // Add listen button
   const speakBtn = document.createElement("button");
   speakBtn.className = "speak-btn";
   speakBtn.textContent = "🔊 Listen";
   speakBtn.onclick = readLastAnswer;
-  msg.appendChild(speakBtn);
 
+  msg.appendChild(speakBtn);
   scrollChatToBottom();
 }
 
 /* =========================
-   SMART TUTOR INTRO
+   VOICE OUTPUT (TEXT TO SPEECH)
    ========================= */
-function tutorWelcomeIfNeeded() {
-  const alreadyWelcomed = localStorage.getItem("welcomed");
+function speakText(text) {
+  if (!text) return;
 
-  if (!alreadyWelcomed) {
-    localStorage.setItem("welcomed", "true");
+  window.speechSynthesis.cancel();
 
-    const intro = document.createElement("div");
-    intro.className = "message ai";
-    intro.innerHTML = `
-      <strong>Welcome to WOFA AI 🎓</strong><br><br>
-      I can teach you ANYTHING from Montessori → University → PhD.<br><br>
-      ✅ Ask any question<br>
-      ✅ Select courses/lessons (optional)<br>
-      ✅ Upload an image for explanation<br>
-      ✅ Voice input is supported<br><br>
-      <em>Start by asking me anything!</em>
-    `;
-    chatBox.appendChild(intro);
-    scrollChatToBottom();
-  }
+  speechUtterance = new SpeechSynthesisUtterance(text);
+  speechUtterance.lang = "en-US";
+  speechUtterance.rate = 0.95;
+  speechUtterance.pitch = 1;
+
+  window.speechSynthesis.speak(speechUtterance);
 }
 
-document.addEventListener("DOMContentLoaded", tutorWelcomeIfNeeded);
-
-/* =========================
-   GET OPTIONAL CONTEXT
-   ========================= */
-function getLearningContext() {
-  return {
-    course: localStorage.getItem("activeCourse") || null,
-    lesson: localStorage.getItem("activeLesson") || null
-  };
-}
-
-/* =========================
-   SMART QUESTION BUILDER
-   ========================= */
-function buildSmartQuestion(userQuestion) {
-  const { course, lesson } = getLearningContext();
-
-  if (userQuestion) return userQuestion;
-
-  if (lastUploadedImage) {
-    return "Explain the uploaded image clearly step-by-step like a teacher.";
-  }
-
-  if (course && lesson) {
-    return `Teach me this lesson: ${lesson}. Start from beginner level and explain step-by-step with examples and exercises.`;
-  }
-
-  if (course && !lesson) {
-    return `Teach me the course topic "${course}". Start from the basics and build gradually with examples and practice questions.`;
-  }
-
-  return "Teach me something valuable today in a clear step-by-step way.";
-}
-
-/* =========================
-   SEND QUESTION (OPENAI BACKBONE)
-   ========================= */
-async function sendQuestion() {
-  if (isThinking) return;
-
-  const userQuestion = input.value.trim();
-  const { course, lesson } = getLearningContext();
-
-  if (!userQuestion && !lastUploadedImage && !course) {
-    alert("Type a question, upload an image, or select a course.");
+function readLastAnswer() {
+  if (!lastAIMessageElement) {
+    alert("No AI answer yet.");
     return;
   }
 
-  addUserMessage(
-    userQuestion || (lastUploadedImage ? "📷 Image uploaded" : "📘 Start teaching me"),
-    lastUploadedImage ? [lastUploadedImage] : []
-  );
-
-  input.value = "";
-  isThinking = true;
-  showThinking();
-
-  const finalQuestion = buildSmartQuestion(userQuestion);
-
-  try {
-    const res = await fetch(`${API_BASE}/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        question: finalQuestion,
-        course,
-        lesson,
-        image: lastUploadedImage || null
-      })
-    });
-
-    const data = await res.json();
-
-    removeThinking();
-    isThinking = false;
-
-    if (!res.ok) {
-      await typeAIMessage(data.message || "❌ Something went wrong.");
-      return;
-    }
-
-    await typeAIMessage(data.answer || "⚠️ No response generated.");
-
-    lastUploadedImage = null;
-
-  } catch (err) {
-    removeThinking();
-    isThinking = false;
-    await typeAIMessage("❌ Unable to connect to WOFA AI backend. Check internet or server.");
-    console.error(err);
-  }
+  const cleanText = lastAIMessageElement.innerText.replace("🔊 Listen", "").trim();
+  speakText(cleanText);
 }
 
-/* =========================
-   IMAGE UPLOAD
-   ========================= */
-if (imageInput) {
-  imageInput.addEventListener("change", () => {
-    const file = imageInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      lastUploadedImage = reader.result;
-
-      addUserMessage("📷 Image uploaded successfully. Ask me to explain it.", [
-        reader.result
-      ]);
-    };
-
-    reader.readAsDataURL(file);
-  });
+function stopSpeaking() {
+  window.speechSynthesis.cancel();
 }
 
 /* =========================
@@ -312,7 +189,7 @@ if (imageInput) {
    ========================= */
 function startVoiceInput() {
   if (!("webkitSpeechRecognition" in window)) {
-    alert("Voice input not supported in this browser.");
+    alert("Voice input is not supported in this browser.");
     return;
   }
 
@@ -334,7 +211,51 @@ function startVoiceInput() {
 }
 
 /* =========================
-   ENTER KEY SEND SUPPORT
+   SEND QUESTION TO GROQ BACKEND
+   ========================= */
+async function sendQuestion() {
+  if (isThinking) return;
+
+  const userQuestion = input.value.trim();
+  const { course, lesson } = getLearningContext();
+
+  if (!userQuestion && !course) {
+    alert("Type a question or select a course.");
+    return;
+  }
+
+  addUserMessage(userQuestion || "📘 Start teaching me");
+
+  input.value = "";
+  isThinking = true;
+  showThinking();
+
+  const finalQuestion = buildSmartQuestion(userQuestion);
+
+  try {
+    const data = await apiPost("/chat", {
+      question: finalQuestion,
+      course,
+      lesson
+    });
+
+    removeThinking();
+    isThinking = false;
+
+    await typeAIMessage(data.answer || "⚠️ No response generated.");
+
+  } catch (err) {
+    removeThinking();
+    isThinking = false;
+
+    await typeAIMessage(
+      "❌ WOFA AI cannot respond right now. Please check your internet or backend server."
+    );
+  }
+}
+
+/* =========================
+   ENTER KEY SUPPORT
    ========================= */
 if (input) {
   input.addEventListener("keydown", (e) => {
@@ -351,13 +272,39 @@ if (input) {
 function clearChat() {
   stopSpeaking();
   lastAIMessageElement = null;
-  lastUploadedImage = null;
 
   chatBox.innerHTML = `
     <div class="message ai">
       <strong>Chat cleared 🧹</strong><br><br>
-      Ask me anything or select a course & lesson (optional).<br>
+      Ask me anything or select a course & lesson.<br>
       I’m ready to teach you again 🎓
     </div>
   `;
 }
+
+/* =========================
+   WELCOME MESSAGE
+   ========================= */
+function tutorWelcomeIfNeeded() {
+  const alreadyWelcomed = localStorage.getItem("welcomed");
+
+  if (!alreadyWelcomed) {
+    localStorage.setItem("welcomed", "true");
+
+    const intro = document.createElement("div");
+    intro.className = "message ai";
+    intro.innerHTML = `
+      <strong>Welcome to WOFA AI 🎓</strong><br><br>
+      I can teach you ANYTHING from Montessori → University → PhD.<br><br>
+      ✅ Select a course & lesson on the left<br>
+      ✅ Ask any question<br>
+      ✅ Learn step-by-step like a real classroom<br><br>
+      <em>Start by typing your first question!</em>
+    `;
+
+    chatBox.appendChild(intro);
+    scrollChatToBottom();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", tutorWelcomeIfNeeded);
