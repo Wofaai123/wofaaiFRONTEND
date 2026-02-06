@@ -2,10 +2,10 @@
   "name": "wofa-ai-frontend",
   "version": "2.0.0",
   "private": true,
-  "description": "WOFA AI Frontend (Static HTML/CSS/JS with OpenAI backend)",
+  "description": "WOFA AI Frontend (Static HTML/CSS/JS powered by Groq backend)",
   "scripts": {
-    "dev": "serve .",
-    "start": "serve .",
+    "dev": "serve . -l 3000",
+    "start": "serve . -l 3000",
     "build": "echo \"Static frontend - no build required\""
   },
   "devDependencies": {
