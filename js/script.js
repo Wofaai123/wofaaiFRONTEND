@@ -1,25 +1,27 @@
 /* ==========================================================
-   WOFA AI FRONTEND SCRIPT.JS (Feb 2026 - Groq Version)
+   WOFA AI FRONTEND SCRIPT.JS (Feb 2026 - FAST VERSION)
    - Authentication Removed
    - Backend AI Support
    - Courses/Lessons Optional
    - Smart Tutor Mode (Kids + Adult)
    - Voice Input + Voice Output
-   - Auto Speak After Typing
+   - Auto Speak After Answer
    - Sentence-by-sentence Reading
    - Outline-First Teaching Mode (7+ outlines required)
    - Auto Teach When Lesson Clicked
    - NO EMOJIS IN TEACHING
+   - NO "WOFA AI is thinking"
+   - INSTANT ANSWER DISPLAY (NO DELAY)
    ========================================================== */
 
 /* =========================
    GLOBAL STATE
    ========================= */
 let lastAIMessageElement = null;
-let isThinking = false;
+let isSending = false;
 let autoSpeakEnabled = true;
 
-// Speech state
+/* Speech state */
 let speechUtterance = null;
 let speechSentences = [];
 let speechIndex = 0;
@@ -60,17 +62,15 @@ if (darkToggle) darkToggle.onclick = toggleDarkMode;
 /* =========================
    UTILITIES
    ========================= */
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function scrollChatToBottom() {
   if (!chatBox) return;
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function sanitizeHTML(text) {
-  return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return String(text || "")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 /* =========================
@@ -85,7 +85,12 @@ async function apiPost(endpoint, payload) {
     body: JSON.stringify(payload)
   });
 
-  const data = await res.json();
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    data = {};
+  }
 
   if (!res.ok) {
     throw new Error(data.message || "API request failed");
@@ -200,26 +205,6 @@ function addUserMessage(text) {
 }
 
 /* =========================
-   THINKING INDICATOR
-   ========================= */
-function showThinking() {
-  removeThinking();
-
-  const msg = document.createElement("div");
-  msg.className = "message ai thinking";
-  msg.id = "thinking-indicator";
-  msg.innerHTML = "WOFA AI is thinking<span class='dots'>...</span>";
-
-  chatBox.appendChild(msg);
-  scrollChatToBottom();
-}
-
-function removeThinking() {
-  const el = document.getElementById("thinking-indicator");
-  if (el) el.remove();
-}
-
-/* =========================
    SPEECH ENGINE (LINE BY LINE)
    ========================= */
 function stopSpeaking() {
@@ -280,7 +265,7 @@ function speakNextSentence() {
 }
 
 /* =========================
-   SPEAK LINE BY LINE (START)
+   SPEAK LINE BY LINE
    ========================= */
 function speakLineByLine(text) {
   stopSpeaking();
@@ -309,24 +294,15 @@ function readLastAnswer() {
 }
 
 /* =========================
-   AI MESSAGE (TYPING EFFECT)
+   DISPLAY AI MESSAGE INSTANTLY
    ========================= */
-async function typeAIMessage(text) {
+function showAIMessageInstant(text) {
   const msg = document.createElement("div");
   msg.className = "message ai";
+  msg.innerHTML = sanitizeHTML(text).replace(/\n/g, "<br>");
+
   chatBox.appendChild(msg);
-
-  const safeText = sanitizeHTML(text);
-
-  let i = 0;
-  const speed = 10;
-
-  while (i < safeText.length) {
-    msg.innerHTML = safeText.slice(0, i).replace(/\n/g, "<br>");
-    i++;
-    scrollChatToBottom();
-    await sleep(speed);
-  }
+  scrollChatToBottom();
 
   lastAIMessageElement = msg;
 
@@ -371,10 +347,10 @@ function startVoiceInput() {
 }
 
 /* =========================
-   SEND QUESTION TO BACKEND
+   SEND QUESTION TO BACKEND (FAST)
    ========================= */
 async function sendQuestion(forceAutoTeach = false) {
-  if (isThinking) return;
+  if (isSending) return;
 
   const userQuestion = input.value.trim();
   const { course, lesson } = getLearningContext();
@@ -391,8 +367,7 @@ async function sendQuestion(forceAutoTeach = false) {
   }
 
   input.value = "";
-  isThinking = true;
-  showThinking();
+  isSending = true;
 
   const finalPrompt = buildOutlineFirstPrompt(userQuestion, course, lesson);
 
@@ -403,18 +378,14 @@ async function sendQuestion(forceAutoTeach = false) {
       lesson
     });
 
-    removeThinking();
-    isThinking = false;
-
-    await typeAIMessage(data.answer || "No response generated.");
+    showAIMessageInstant(data.answer || "No response generated.");
+    isSending = false;
 
   } catch (err) {
-    removeThinking();
-    isThinking = false;
-
-    await typeAIMessage(
+    showAIMessageInstant(
       "WOFA AI cannot respond right now. Please check your internet or backend server."
     );
+    isSending = false;
   }
 }
 
@@ -481,3 +452,13 @@ function tutorWelcomeIfNeeded() {
 
 document.addEventListener("DOMContentLoaded", tutorWelcomeIfNeeded);
 
+/* =========================
+   EXPOSE FUNCTIONS TO HTML
+   ========================= */
+window.sendQuestion = sendQuestion;
+window.startVoiceInput = startVoiceInput;
+window.readLastAnswer = readLastAnswer;
+window.clearChat = clearChat;
+window.pauseSpeaking = pauseSpeaking;
+window.resumeSpeaking = resumeSpeaking;
+window.stopSpeaking = stopSpeaking;
