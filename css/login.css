@@ -1,6 +1,7 @@
 /* ========================= 
    WOFA AI WELCOME PAGE (2026)
    Clean Responsive Design
+   Professional + Simple
    ========================= */
 
 * {
@@ -10,13 +11,18 @@
   font-family: "Inter", Arial, sans-serif;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
-  min-height: 100vh;
   background: linear-gradient(135deg, #667eea, #764ba2);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 10px;
+  align-items: center;
+  padding: 18px;
+  overflow-x: hidden;
 }
 
 /* =========================
@@ -24,10 +30,10 @@ body {
    ========================= */
 .login-wrapper {
   width: 100%;
-  max-width: 1000px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
 }
 
 /* =========================
@@ -36,15 +42,15 @@ body {
 .login-topbar {
   width: 100%;
   background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 18px 20px;
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  padding: 22px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.22);
 }
 
 /* =========================
@@ -57,23 +63,13 @@ body {
 }
 
 .login-logo {
-  width: 120px;
+  width: 150px;
   height: auto;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.8);
-  padding: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-
-  animation: floatLogo 2.8s ease-in-out infinite;
-}
-
-/* Logo animation */
-@keyframes floatLogo {
-  0% { transform: translate(0px, 0px); }
-  25% { transform: translate(6px, -6px); }
-  50% { transform: translate(0px, -12px); }
-  75% { transform: translate(-6px, -6px); }
-  100% { transform: translate(0px, 0px); }
+  object-fit: contain;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
 /* =========================
@@ -82,32 +78,33 @@ body {
 .login-card {
   width: 100%;
   background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  border-radius: 22px;
-  padding: 35px 28px;
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 40px 30px;
   text-align: center;
 
-  box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.4);
 }
 
 /* =========================
    HEADER TEXT
    ========================= */
 .login-header {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .login-header h1 {
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 900;
-  color: green;
+  color: #0f172a;
+  letter-spacing: 0.5px;
 }
 
 .login-header p {
-  margin-top: 5px;
-  font-size: 15px;
-  font-weight: 600;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 700;
   color: #475569;
 }
 
@@ -115,11 +112,14 @@ body {
    WELCOME MESSAGE
    ========================= */
 .welcome-message {
-  margin-top: 15px;
+  margin-top: 12px;
   font-size: 16px;
   font-weight: 600;
   color: #1e293b;
-  line-height: 1.6;
+  line-height: 1.7;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* =========================
@@ -127,9 +127,9 @@ body {
    ========================= */
 .login-btn {
   width: 100%;
-  max-width: 320px;
-  padding: 14px;
-  border-radius: 12px;
+  max-width: 340px;
+  padding: 15px;
+  border-radius: 14px;
   border: none;
   background: #2563eb;
   color: white;
@@ -137,7 +137,7 @@ body {
   font-weight: 900;
   cursor: pointer;
   transition: 0.2s ease;
-  margin-top: 25px;
+  margin-top: 28px;
 }
 
 .login-btn:hover {
@@ -149,15 +149,42 @@ body {
    MOBILE RESPONSIVE
    ========================= */
 @media (max-width: 900px) {
+  body {
+    padding: 14px;
+  }
+
   .login-logo {
-    width: 100px;
+    width: 120px;
   }
 
   .login-card {
-    padding: 26px 20px;
+    padding: 32px 22px;
   }
 
   .login-header h1 {
-    font-size: 30px;
+    font-size: 32px;
+  }
+
+  .login-header p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-logo {
+    width: 105px;
+  }
+
+  .login-header h1 {
+    font-size: 26px;
+  }
+
+  .welcome-message {
+    font-size: 14px;
+  }
+
+  .login-btn {
+    font-size: 15px;
+    padding: 14px;
   }
 }

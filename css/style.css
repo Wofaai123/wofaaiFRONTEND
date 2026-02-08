@@ -70,14 +70,19 @@ body {
 }
 
 .nav-title {
-  font-size: 16px;
+  font-size: 30px;
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.3px;
+  color: green;
 }
+
 
 .nav-links {
   display: flex;
   gap: 16px;
+}
+.nav-links {
+  margin-left: auto; /* pushes the links to the right */
 }
 
 .nav-link {
@@ -439,20 +444,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* =========================
-   LOGO ANIMATION
-   ========================= */
-.floating-logo {
-  animation: bounceFloat 2.5s ease-in-out infinite;
-}
-
-@keyframes bounceFloat {
-  0% { transform: translate(0px, 0px); }
-  25% { transform: translate(6px, -6px); }
-  50% { transform: translate(0px, -12px); }
-  75% { transform: translate(-6px, -6px); }
-  100% { transform: translate(0px, 0px); }
-}
 
 /* =========================
    DARK MODE
