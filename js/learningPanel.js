@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const coursesData = [
     {
       id: "general-knowledge",
-      title: "General Knowledge (All Sectors & All Ages)",
+      title: "General Knowledge",
       lessons: [
         { id: "gk001", title: "World History & Major Events" },
         { id: "gk002", title: "Geography & Countries of the World" },
