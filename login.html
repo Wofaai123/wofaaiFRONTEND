@@ -5,51 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WOFA AI – Welcome</title>
 
-  <link rel="stylesheet" href="css/login.css" />
+  <style>
+    /* =========================
+       WOFA AI WELCOME PAGE STYLE
+       ========================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .welcome-container {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 35px 28px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .welcome-logo {
+      width: 150px;
+      height: auto;
+      object-fit: contain;
+      margin-bottom: 18px;
+      background: transparent;
+    }
+
+    .welcome-title {
+      font-size: 34px;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+
+    .welcome-subtitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 18px;
+    }
+
+    .welcome-text {
+      font-size: 15px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 26px;
+    }
+
+    .start-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .start-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .small-note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .welcome-container {
+        padding: 28px 20px;
+      }
+
+      .welcome-title {
+        font-size: 28px;
+      }
+
+      .welcome-logo {
+        width: 120px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="login-wrapper">
+  <div class="welcome-container">
 
-    <!-- =========================
-         TOP BAR (LOGO ONLY)
-         ========================= -->
-    <div class="login-topbar">
+    <img src="assets/logo.png" alt="WOFA AI Logo" class="welcome-logo" />
 
-      <div class="logo-center">
-        <img src="assets/logo.png" alt="WOFA AI Logo" class="login-logo" />
-      </div>
+    <h1 class="welcome-title">Welcome to WOFA AI</h1>
+    <p class="welcome-subtitle">Your Smart Visual Learning Assistant</p>
 
-    </div>
+    <p class="welcome-text">
+      Learn faster, understand lessons better, and get step-by-step explanations.
+      WOFA AI is designed to teach you clearly from beginner level to advanced level.
+    </p>
 
-    <!-- =========================
-         WELCOME CARD
-         ========================= -->
-    <div class="login-card">
+    <button class="start-btn" onclick="goToWOFA()">
+      Start Learning Today
+    </button>
 
-      <div class="login-header">
-        <h1>Welcome to WOFA AI</h1>
-        <p>Your Visual Learning Companion</p>
-      </div>
-
-      <div class="welcome-message">
-        <p>
-          WOFA AI is here to help you learn, correct mistakes, and generate powerful responses using AI.
-        </p>
-
-        <button class="login-btn" onclick="goToMainPage()">
-          Proceed to WOFA AI →
-        </button>
-      </div>
-
-    </div>
+    <p class="small-note">
+      Powered by AI Learning Technology
+    </p>
 
   </div>
 
-  <!-- Scripts -->
   <script>
-    function goToMainPage() {
+    function goToWOFA() {
       window.location.href = "index.html";
     }
   </script>
