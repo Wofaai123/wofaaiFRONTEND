@@ -1,5 +1,5 @@
 /* ==========================================================
-   WOFA AI FRONTEND SCRIPT.JS (Feb 2026 - FAST VERSION)
+   WOFA AI FRONTEND SCRIPT.JS (Feb 2026 - TYPING DELAY VERSION)
    - Authentication Removed
    - Backend AI Support
    - Courses/Lessons Optional
@@ -11,7 +11,8 @@
    - Auto Teach When Lesson Clicked
    - NO EMOJIS IN TEACHING
    - NO "WOFA AI is thinking"
-   - INSTANT ANSWER DISPLAY (NO DELAY)
+   - DELAY BEFORE TYPING (SECONDS)
+   - TYPING ANSWER DISPLAY (VISIBLE TO USER)
    ========================================================== */
 
 /* =========================
@@ -39,6 +40,12 @@ const darkToggle = document.getElementById("darkToggle");
    ========================= */
 const API_BASE_URL =
   window.WOFA_CONFIG?.API_BASE_URL || "https://wofa-ai-backend.onrender.com/api";
+
+/* =========================
+   TYPING SETTINGS (SECONDS)
+   ========================= */
+const TYPING_START_DELAY_SECONDS = 1.5; // delay before typing starts
+const TYPING_SPEED_MS = 12;             // typing speed per character
 
 /* =========================
    THEME (DARK MODE)
@@ -71,6 +78,10 @@ function sanitizeHTML(text) {
   return String(text || "")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /* =========================
@@ -294,15 +305,27 @@ function readLastAnswer() {
 }
 
 /* =========================
-   DISPLAY AI MESSAGE INSTANTLY
+   TYPE AI MESSAGE (SECONDS DELAY)
    ========================= */
-function showAIMessageInstant(text) {
+async function typeAIMessage(text) {
   const msg = document.createElement("div");
   msg.className = "message ai";
-  msg.innerHTML = sanitizeHTML(text).replace(/\n/g, "<br>");
-
   chatBox.appendChild(msg);
+
   scrollChatToBottom();
+
+  // delay before typing starts (seconds)
+  await sleep(TYPING_START_DELAY_SECONDS * 1000);
+
+  const safeText = sanitizeHTML(text);
+  let i = 0;
+
+  while (i < safeText.length) {
+    msg.innerHTML = safeText.slice(0, i).replace(/\n/g, "<br>");
+    i++;
+    scrollChatToBottom();
+    await sleep(TYPING_SPEED_MS);
+  }
 
   lastAIMessageElement = msg;
 
@@ -347,7 +370,7 @@ function startVoiceInput() {
 }
 
 /* =========================
-   SEND QUESTION TO BACKEND (FAST)
+   SEND QUESTION TO BACKEND
    ========================= */
 async function sendQuestion(forceAutoTeach = false) {
   if (isSending) return;
@@ -378,11 +401,11 @@ async function sendQuestion(forceAutoTeach = false) {
       lesson
     });
 
-    showAIMessageInstant(data.answer || "No response generated.");
+    await typeAIMessage(data.answer || "No response generated.");
     isSending = false;
 
   } catch (err) {
-    showAIMessageInstant(
+    await typeAIMessage(
       "WOFA AI cannot respond right now. Please check your internet or backend server."
     );
     isSending = false;
@@ -395,7 +418,6 @@ async function sendQuestion(forceAutoTeach = false) {
 window.autoTeachLesson = function(courseTitle, lessonTitle) {
   localStorage.setItem("wofaActiveCourse", courseTitle || "");
   localStorage.setItem("wofaActiveLesson", lessonTitle || "");
-
   sendQuestion(true);
 };
 
