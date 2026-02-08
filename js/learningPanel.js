@@ -17,6 +17,28 @@ document.addEventListener("DOMContentLoaded", () => {
      ─────────────────────────────────────────────── */
   const coursesData = [
     {
+      id: "general-knowledge",
+      title: "General Knowledge (All Sectors & All Ages)",
+      lessons: [
+        { id: "gk001", title: "World History & Major Events" },
+        { id: "gk002", title: "Geography & Countries of the World" },
+        { id: "gk003", title: "Science & Nature" },
+        { id: "gk004", title: "Technology & Modern Innovations" },
+        { id: "gk005", title: "Politics & Government Systems" },
+        { id: "gk006", title: "Economics & Money Systems" },
+        { id: "gk007", title: "Health & Human Body Knowledge" },
+        { id: "gk008", title: "Famous People & Leaders" },
+        { id: "gk009", title: "Religion & Global Beliefs" },
+        { id: "gk010", title: "Culture, Traditions & Society" },
+        { id: "gk011", title: "Sports & Global Competitions" },
+        { id: "gk012", title: "Arts, Music & Entertainment" },
+        { id: "gk013", title: "Current Affairs & Trending Topics" },
+        { id: "gk014", title: "General Intelligence & Brain Training" },
+        { id: "gk015", title: "Everyday Life Skills & Practical Knowledge" }
+      ]
+    },
+
+    {
       id: "bba",
       title: "Bachelor of Business Administration (BBA)",
       lessons: [
@@ -81,6 +103,36 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "ict103", title: "Database Management Systems" },
         { id: "ict104", title: "Cybersecurity Basics" },
         { id: "ict105", title: "Cloud Computing & Virtualization" }
+      ]
+    },
+
+    {
+      id: "futureverse",
+      title: "FUTUREVERSE (Learning Today, Leading Tomorrow)",
+      lessons: [
+        { id: "fv001", title: "Artificial Intelligence & Machine Learning" },
+        { id: "fv002", title: "Ethical AI & Responsible Technology" },
+        { id: "fv003", title: "Quantum Computing & Next-Gen Computing" },
+        { id: "fv004", title: "Metaverse, VR & AR Learning" },
+        { id: "fv005", title: "Personalized Adaptive Learning Systems" },
+
+        { id: "fv006", title: "Cybersecurity & Digital Safety" },
+        { id: "fv007", title: "Coding & Computer Science (Python, Java, Web Dev)" },
+        { id: "fv008", title: "Future Work & Gig Economy Skills" },
+        { id: "fv009", title: "Career Preparation & Interview Mastery" },
+        { id: "fv010", title: "Research Skills, Thesis & Academic Writing" },
+
+        { id: "fv011", title: "Climate Change & Sustainability" },
+        { id: "fv012", title: "Climate Solutions & Green Innovation Careers" },
+        { id: "fv013", title: "Environmental Technology & Clean Energy" },
+        { id: "fv014", title: "Eco-Anxiety & Climate Mental Wellness" },
+        { id: "fv015", title: "Social Movements & Youth Activism" },
+
+        { id: "fv016", title: "Mental Health & Student Wellness" },
+        { id: "fv017", title: "Global Health & Pandemic Preparedness" },
+        { id: "fv018", title: "Health & Medicine Research Topics" },
+        { id: "fv019", title: "Human Ethics in Society & Technology" },
+        { id: "fv020", title: "Study Abroad, Scholarships & Global Education" }
       ]
     },
 
@@ -307,51 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "br002", title: "Genesis 1–3: Creation, Fall, and Spiritual Authority" },
         { id: "br003", title: "Genesis 12: Abraham and Covenant Relationship" },
         { id: "br004", title: "Exodus 12: The Passover Mystery and Deliverance" },
-        { id: "br005", title: "Exodus 14: Crossing the Red Sea (Faith and Power)" },
-        { id: "br006", title: "Leviticus 1–7: Sacrifice, Blood, and Atonement" },
-        { id: "br007", title: "Leviticus 16: The Day of Atonement Explained" },
-        { id: "br008", title: "Numbers 13–14: Fear vs Faith (Spiritual Warfare)" },
-        { id: "br009", title: "Deuteronomy 28: Blessings and Curses Explained" },
-        { id: "br010", title: "Joshua 1: Spiritual Leadership and Divine Commission" },
-        { id: "br011", title: "Judges 6: Gideon and the Spirit of Courage" },
-        { id: "br012", title: "1 Samuel 16–17: David, Anointing, and Victory" },
-        { id: "br013", title: "2 Samuel 6: David and the Ark of God" },
-        { id: "br014", title: "1 Kings 18: Elijah vs Baal (Fire and Prophetic Authority)" },
-        { id: "br015", title: "2 Kings 2: Elijah and Elisha (Mantle Transfer)" },
-        { id: "br016", title: "Job 1–2: Spiritual Battles Behind Suffering" },
-        { id: "br017", title: "Psalm 23: The Lord as Shepherd and Protector" },
-        { id: "br018", title: "Psalm 91: Divine Protection and Warfare Psalm" },
-        { id: "br019", title: "Proverbs 1–4: Wisdom as Spiritual Power" },
-        { id: "br020", title: "Ecclesiastes 3: Times and Seasons in the Spirit" },
-        { id: "br021", title: "Isaiah 6: Encountering the Throne of God" },
-        { id: "br022", title: "Isaiah 53: Prophecy of the Suffering Messiah" },
-        { id: "br023", title: "Jeremiah 1: Prophetic Calling and Assignment" },
-        { id: "br024", title: "Ezekiel 37: Valley of Dry Bones (Restoration Power)" },
-        { id: "br025", title: "Daniel 1: Purity and Spiritual Excellence" },
-        { id: "br026", title: "Daniel 3: The Fiery Furnace and Faith Under Pressure" },
-        { id: "br027", title: "Daniel 6: Daniel in the Lion’s Den (Prayer and Authority)" },
-        { id: "br028", title: "Hosea 2: God’s Love and Restoration" },
-        { id: "br029", title: "Joel 2: Outpouring of the Spirit and End-Time Revival" },
-        { id: "br030", title: "Micah 6: What God Requires from His People" },
-        { id: "br031", title: "Malachi 3: Tithes, Offerings, and Open Heavens" },
-        { id: "br032", title: "Matthew 5–7: Sermon on the Mount Explained" },
-        { id: "br033", title: "Matthew 13: Kingdom Parables and Spiritual Secrets" },
-        { id: "br034", title: "Luke 15: The Prodigal Son and the Father’s Heart" },
-        { id: "br035", title: "John 1: The Word, Divinity, and the Mystery of Christ" },
-        { id: "br036", title: "John 3: Salvation, Born Again, and Eternal Life" },
-        { id: "br037", title: "John 14–16: The Holy Spirit and Jesus’ Final Teachings" },
-        { id: "br038", title: "Acts 1–2: Pentecost and the Birth of the Church" },
-        { id: "br039", title: "Acts 9: Saul’s Conversion and Apostolic Calling" },
-        { id: "br040", title: "Romans 8: Life in the Spirit and Sonship" },
-        { id: "br041", title: "1 Corinthians 12–14: Spiritual Gifts and Church Order" },
-        { id: "br042", title: "Ephesians 6: Spiritual Warfare and Armor of God" },
-        { id: "br043", title: "Philippians 2: Humility and the Mind of Christ" },
-        { id: "br044", title: "Hebrews 11: Faith as a Spiritual Weapon" },
-        { id: "br045", title: "James 1: Trials, Wisdom, and Spiritual Maturity" },
-        { id: "br046", title: "1 Peter 5: Spiritual Leadership and Watchfulness" },
-        { id: "br047", title: "Revelation 1: Jesus Christ Revealed" },
-        { id: "br048", title: "Revelation 12: Spiritual Warfare in the Heavens" },
-        { id: "br049", title: "Revelation 21–22: Heaven, New Earth, and Eternal Glory" }
+        { id: "br005", title: "Exodus 14: Crossing the Red Sea (Faith and Power)" }
       ]
     },
 
@@ -363,46 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: "jes002", title: "Jesus as the Son of God (Meaning and Revelation)" },
         { id: "jes003", title: "Jesus as the Word of God (John 1 Explained)" },
         { id: "jes004", title: "Jesus as God in Human Form (Divinity of Christ)" },
-        { id: "jes005", title: "Jesus as the Soul of God (Mystery Teaching)" },
-        { id: "jes006", title: "The Birth of Jesus: Prophecy and Spiritual Significance" },
-        { id: "jes007", title: "The Baptism of Jesus and the Manifestation of the Spirit" },
-        { id: "jes008", title: "The Temptation of Jesus (Spiritual Warfare Lessons)" },
-        { id: "jes009", title: "The Miracles of Jesus and What They Reveal" },
-        { id: "jes010", title: "Jesus and the Power of Compassion" },
-        { id: "jes011", title: "Jesus as the Teacher (Parables and Kingdom Mysteries)" },
-        { id: "jes012", title: "Jesus as the Healer (Faith and Divine Healing)" },
-        { id: "jes013", title: "Jesus as the Deliverer (Demons and Authority)" },
-        { id: "jes014", title: "Jesus and Spiritual Authority Over Darkness" },
-        { id: "jes015", title: "Jesus and the Mystery of Prayer" },
-        { id: "jes016", title: "Jesus and the Power of Fasting" },
-        { id: "jes017", title: "Jesus and the Covenant of Love" },
-        { id: "jes018", title: "Jesus and the Meaning of Sacrifice" },
-        { id: "jes019", title: "The Cross: The Blood Covenant Explained" },
-        { id: "jes020", title: "The Resurrection Power of Jesus" },
-        { id: "jes021", title: "Jesus as the Lion of Judah" },
-        { id: "jes022", title: "Jesus as the Lamb of God" },
-        { id: "jes023", title: "Jesus as the High Priest (Hebrews Explained)" },
-        { id: "jes024", title: "Jesus as the Door, the Way, the Truth, and the Life" },
-        { id: "jes025", title: "Jesus and the Kingdom of God (How the Kingdom Works)" },
-        { id: "jes026", title: "Jesus as King of Kings and Lord of Lords" },
-        { id: "jes027", title: "The Second Coming of Christ (Prophetic Understanding)" },
-        { id: "jes028", title: "Jesus and Eternal Judgment (Heaven and Hell)" },
-        { id: "jes029", title: "Who is the Holy Spirit? (Person and Power)" },
-        { id: "jes030", title: "The Holy Spirit in the Old Testament" },
-        { id: "jes031", title: "The Holy Spirit in the Life of Jesus" },
-        { id: "jes032", title: "Baptism of the Holy Spirit Explained" },
-        { id: "jes033", title: "Gifts of the Holy Spirit (1 Corinthians 12)" },
-        { id: "jes034", title: "Fruit of the Holy Spirit (Galatians 5)" },
-        { id: "jes035", title: "The Holy Spirit and Spiritual Discernment" },
-        { id: "jes036", title: "The Holy Spirit and Prophecy" },
-        { id: "jes037", title: "The Holy Spirit and Speaking in Tongues" },
-        { id: "jes038", title: "The Holy Spirit and Deliverance Ministry" },
-        { id: "jes039", title: "The Holy Spirit and Divine Guidance" },
-        { id: "jes040", title: "Walking in the Spirit Daily (Practical Lifestyle)" },
-        { id: "jes041", title: "Anointing and Spiritual Power (Levels of Glory)" },
-        { id: "jes042", title: "The Presence of God (How to Host God’s Glory)" },
-        { id: "jes043", title: "Spiritual Growth: From Milk to Strong Meat" },
-        { id: "jes044", title: "Understanding the Trinity (Father, Son, Holy Spirit)" }
+        { id: "jes005", title: "Jesus as the Soul of God (Mystery Teaching)" }
       ]
     }
   ];
